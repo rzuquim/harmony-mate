@@ -2,3 +2,7 @@
   font-weight: 900;
   background-color: red;
 }
+
+.chord {
+  cursor: pointer;
+}
