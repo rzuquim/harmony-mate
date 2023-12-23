@@ -11,7 +11,6 @@ let new_mate = (lyricsElement, chordsElement, options) => {
 
   let selectedChord = ''
   options ??= defaultOptions
-  let lyrics_lines = lyricsElement.textContent.split('\n')
 
   chordsElement.addEventListener('click', (evt) => {
     let clickedEl = evt.target
@@ -28,25 +27,24 @@ let new_mate = (lyricsElement, chordsElement, options) => {
       return
     }
 
-    // screen position
-    let [clickX, clickY] = [evt.clientX, evt.clientY]
-
+    let lines = lyricsElement.textContent.split('\n')
     let lyricsRect = lyricsElement.getBoundingClientRect()
-    let hightPerLine = lyricsRect.height / lyrics_lines.length
 
+    let [clickX, clickY] = [evt.clientX, evt.clientY]
     let [relativeX, relativeY] = [clickX - lyricsRect.x, clickY - lyricsRect.y]
+
+    let hightPerLine = lyricsRect.height / lines.length
     let lineIdx = Math.floor(relativeY / hightPerLine)
-    let line = lyrics_lines[lineIdx]
+    let clickedLine = lines[lineIdx]
 
-    if (!isLyricsLine(line)) {
-      if (options.verbose)
-        console.log('clicked on a line that do not have lyrics')
-      return
-    }
+    let [chordsLine, lyricsLine, writeIdx] = selectWriteLine(
+      clickedLine,
+      lineIdx,
+      lines,
+    )
 
-    // assuming monospaced font here
-    let lineWidth = calculateLineWidth(line, lyricsElement)
-    let singleCharWith = lineWidth / line.length
+    let lineWidth = calculateLineWidth(lyricsLine, lyricsElement) // assuming monospaced font here
+    let singleCharWith = lineWidth / lyricsLine.length
     let charIdx = Math.floor(relativeX / singleCharWith)
 
     if (options.verbose)
@@ -57,25 +55,16 @@ let new_mate = (lyricsElement, chordsElement, options) => {
         relativeX,
         relativeY,
         lineIdx,
-        line,
+        clickedLine,
         lineWidth,
         singleCharWith,
         charIdx,
       })
 
-    let chordsLine = lineIdx === 0 ? '' : lyrics_lines[lineIdx - 1]
-    if (isLyricsLine(chordsLine)) {
-      if (options.verbose) console.log('line over click is not a chords line')
-      chordsLine = ''
-    }
-
-    let isNewLine = chordsLine.length === 0
     chordsLine = addChord(chordsLine, charIdx, selectedChord)
 
-    if (isNewLine) lyrics_lines.splice(lineIdx, 0, chordsLine)
-    else lyrics_lines[lineIdx - 1] = chordsLine
-
-    lyricsElement.textContent = lyrics_lines.join('\n')
+    lines[writeIdx] = chordsLine
+    lyricsElement.textContent = lines.join('\n')
   })
 }
 
@@ -89,10 +78,42 @@ let new_mate = (lyricsElement, chordsElement, options) => {
 let addChord = (line, charIdx, chord) => {
   let missingSpaces = charIdx - line.length
   if (missingSpaces > 0) line += ' '.repeat(missingSpaces)
+
   let prefix = line.slice(0, charIdx)
   let rest = line.slice(charIdx)
   rest = rest.length > chord.length ? rest.slice(chord.length) : rest
   return prefix + chord + rest
+}
+
+/**
+ * Returns the line where we should write the chord
+ * @param {String} clickedLine
+ * @param {number} clickedLineIdx
+ * @param {Array} lines (might be mutated if lines are added)
+ * @returns {Array} Tuple with the chords line, the lyrics line and the line index to write chord
+ * **/
+let selectWriteLine = (clickedLine, clickedLineIdx, lines) => {
+  // already a chords line
+  if (!isLyricsLine(clickedLine)) {
+    let lyricsLine = lines[clickedLineIdx + 1]
+    return [clickedLine, lyricsLine, clickedLineIdx]
+  }
+
+  // first line of the document
+  if (clickedLineIdx === 0) {
+    let newLine = ''
+    lines.unshift(newLine)
+    return [newLine, clickedLine, 0]
+  }
+
+  // previous line
+  let chordsLineIdx = clickedLineIdx - 1
+  let chordsLine = lines[chordsLineIdx]
+  if (!isLyricsLine(chordsLine)) return [chordsLine, clickedLine, chordsLineIdx]
+
+  let newLine = ''
+  lines.splice(clickedLineIdx, 0, newLine)
+  return [newLine, clickedLine, clickedLineIdx]
 }
 
 /**
