@@ -154,7 +154,7 @@ let calculateLineWidth = (line, lyricsElement) => {
  * @param {Element} element
  * @param {String} className
  **/
-function removeClassFromChildren(element, className) {
+let removeClassFromChildren = (element, className) => {
   element.classList.remove(className)
   var childElements = element.children
   for (var i = 0; i < childElements.length; i++) {
