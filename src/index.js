@@ -93,9 +93,20 @@ let addChord = (line, charIdx, chord) => {
  * @returns {Array} Tuple with the chords line, the lyrics line and the line index to write chord
  * **/
 let selectWriteLine = (clickedLine, clickedLineIdx, lines) => {
+  if (isBlankLine(clickedLine)) {
+    lines.splice(clickedLineIdx, 0, '')
+    return [clickedLine, lines[clickedLineIdx + 1], clickedLineIdx]
+  }
+
   // already a chords line
   if (!isLyricsLine(clickedLine)) {
-    let lyricsLine = lines[clickedLineIdx + 1]
+    let nextLine = clickedLineIdx + 1
+    let lyricsLine = lines[nextLine]
+
+    while (isBlankLine(lyricsLine) && ++nextLine < lines.length) {
+      lyricsLine = lines[nextLine]
+    }
+
     return [clickedLine, lyricsLine, clickedLineIdx]
   }
 
@@ -157,6 +168,13 @@ function removeClassFromChildren(element, className) {
  * @returns {Boolean}
  **/
 let isLyricsLine = (line) => /\w{3,}/.test(line) // has any word with 3 or more chars
+
+/**
+ * Checks if line is completly blank (we want to preserve this line)
+ * @param {String} line
+ * @returns {Boolean}
+ **/
+let isBlankLine = (line) => line.trim() === ''
 
 /**
  * @typedef {Object} Options - options to fine tune the harmony mate behavior.
