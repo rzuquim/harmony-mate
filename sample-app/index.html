@@ -1,50 +1,79 @@
 <!doctype html>
 
 <html lang="en">
-
-<head>
+  <head>
     <title>Harmony Mate Sample</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="style.css" rel="stylesheet" />
-</head>
+  </head>
 
-<body>
+  <body>
     <section id="chords">
-        <section label="intro">
-            <span class="chord">E</span>
-            <span class="chord">A</span>
-            <span class="chord">C#</span>
-            <span class="chord">F#</span>
-        </section>
+      <section class="section">
+        <label>[INTRO]</label>
+        <span class="chord">E</span>
+        <span class="chord">A</span>
+        <span class="chord">C#</span>
+        <span class="chord">F#</span>
+      </section>
 
-        <section label="part_a">
-            <span class="chord">B</span>
-            <span class="chord">C#</span>
-            <span class="chord">F#</span>
-            <span class="chord">B</span>
-            <span class="chord">E</span>
-            <span class="chord">C#</span>
-        </section>
+      <section class="section">
+        <label>[Parte A]</label>
+        <span class="chord">B</span>
+        <span class="chord">C#</span>
+        <span class="chord">F#</span>
+        <span class="chord">B</span>
+        <span class="chord">E</span>
+        <span class="chord">C#</span>
+      </section>
 
-        <section label="part_b">
-            <span class="chord">F#</span>
-            <span class="chord">B</span>
-            <span class="chord">C#</span>
-            <span class="chord">B</span>
-        </section>
+      <section class="section">
+        <label>[Parte B]</label>
+        <span class="chord">F#</span>
+        <span class="chord">B</span>
+        <span class="chord">C#</span>
+        <span class="chord">B</span>
+      </section>
 
-        <section label="part_c">
-            <span class="chord">D#m7</span>
-            <span class="chord">G#7</span>
-            <span class="chord">D#m7</span>
-            <span class="chord">C#</span>
-            <span class="chord">E</span>
-        </section>
+      <section class="section">
+        <label>[Parte C]</label>
+        <span class="chord">D#m7</span>
+        <span class="chord">G#7</span>
+        <span class="chord">D#m7</span>
+        <span class="chord">C#</span>
+        <span class="chord">E</span>
+      </section>
+
+      <section class="section">
+        <label>[Refrão]</label>
+        <span class="chord">B</span>
+        <span class="chord">E</span>
+        <span class="chord">F#</span>
+        <span class="chord">B</span>
+        <span class="chord">E</span>
+        <span class="chord">A</span>
+        <span class="chord">C#</span>
+        <span class="chord">F#</span>
+        <span class="chord">B</span>
+        <span class="chord">F#</span>
+      </section>
+
+      <section class="section">
+        <label>[Fim]</label>
+        <span class="chord">E</span>
+        <span class="chord">A</span>
+        <span class="chord">C#</span>
+        <span class="chord">D#</span>
+      </section>
     </section>
 
     <section>
-        <pre id="lyrics">
+      <pre id="lyrics">
+[INTRO]
+
+[Parte A]
+
 Caminhando contra o vento
 Sem lenço e sem documento
 No sol de quase dezembro
@@ -53,19 +82,31 @@ O sol se reparte em crimes
 Espaçonaves, guerrilhas
 Em cardinales bonitas
 Eu vou
+
+[Parte B]
+
 Em caras de presidentes
 Em grandes beijos de amor
 Em dentes, pernas, bandeiras
 Bomba e Brigitte Bardot
+
+[Parte C]
+
 O sol nas bancas de revista
 Me enche de alegria e preguiça
 Quem lê tanta notícia
+
+[Refrão]
+
 Eu vou
 Por entre fotos e nomes
 Os olhos cheios de cores
 O peito cheio de amores vãos
 Eu vou
 Por que não, por que não?
+
+[Parte A]
+
 Ela pensa em casamento
 E eu nunca mais fui à escola
 Sem lenço e sem documento
@@ -74,13 +115,22 @@ Eu tomo uma Coca-Cola
 Ela pensa em casamento
 E uma canção me consola
 Eu vou
+
+[Parte B]
+
 Por entre fotos e nomes
 Sem livros e sem fuzil
 Sem fome, sem telefone
 No coração do Brasil
+
+[Parte C]
+
 Ela nem sabe, até pensei
 Em cantar na televisão
 O sol é tão bonito
+
+[Refrão]
+
 Eu vou
 Sem lenço, sem documento
 Nada no bolso ou nas mãos
@@ -89,13 +139,17 @@ Eu vou
 Por que não, por que não?
 Por que não, por que não?
 Por que não, por que não?
-        </pre>
+
+[Fim]
+
+
+        </pre
+      >
     </section>
 
     <script src="../src/index.js"></script>
     <script>
-        window.mate_by_id('lyrics', 'chords', {verbose: true})
+      window.mate_by_id('lyrics', 'chords', { verbose: true })
     </script>
-</body>
-
+  </body>
 </html>
